@@ -8,6 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.abilitymap"
         minSdkVersion 16
         targetSdkVersion 31
@@ -35,7 +36,7 @@ android {
 }
 
 dependencies {
-
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -44,4 +45,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0'
     implementation 'com.naver.maps:map-sdk:3.15.0'
+
 }
