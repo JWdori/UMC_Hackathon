@@ -37,6 +37,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     List<LatLng> latLngList = new ArrayList<>();
 
 
+=======
+import android.util.Log;
+import android.widget.TextView;
+
+import com.naver.maps.map.MapFragment;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+    TextView tvText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
         super.onCreate(savedInstanceState);
@@ -44,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+
         if(mapFragment ==null ){
             //mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
@@ -53,6 +65,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
 
     }
+
+        if(mapFragment == null){
+            mapFragment = MapFragment.newInstance();
+            fm.beginTransaction().add(R.id.map, mapFragment).commit();
+        }
+
+        mapFragment.getMapAsync(this);
+
 
 
 
@@ -76,4 +96,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
 }
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+        Log.d("MainActivity", "onMapReady");
+
+    }
+}
+
