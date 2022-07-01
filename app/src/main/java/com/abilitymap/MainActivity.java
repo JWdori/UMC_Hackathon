@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
+
+import android.graphics.Color;
 import android.location.Address;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,11 +35,13 @@ import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.overlay.PolygonOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -92,6 +96,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
 
+
+        PolygonOverlay polygon = new PolygonOverlay();
+        polygon.setCoords(Arrays.asList(
+                new LatLng(37.5640984, 126.9712268),
+                new LatLng(37.5651279, 126.9767904),
+                new LatLng(37.5625365, 126.9832241),
+                new LatLng(37.5585305, 126.9809297),
+                new LatLng(37.5590777, 126.974617)
+        ));
+        polygon.setMap(naverMap);
+        polygon.setColor(Color.parseColor("#50FF7B00"));
+        polygon.setOutlineWidth(10);
 
 
 

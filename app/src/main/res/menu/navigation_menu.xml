@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
+
+    <item android:title="@string/remote">
+        <menu>
+            <item
+                android:id="@+id/nav_remote"
+                android:icon="@drawable/ic_remote"
+                android:title="@string/remote_control"/>
+            <item
+                android:id="@+id/nav_addremote"
+                android:icon="@drawable/ic_addremote"
+                android:title="@string/add_remote_control"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_explain"
+        android:icon="@drawable/ic_explain"
+        android:title="@string/explain" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+</menu>
