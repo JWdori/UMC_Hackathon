@@ -22,3 +22,4 @@ android:orientation="vertical">
         app:srcCompat="@drawable/ic_logo"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
