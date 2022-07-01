@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("MainActivity", "onMapReady");
     }
 
-
+//
     @Override
     public void onRequestPermissionsResult ( int requestCode,
                                              @NonNull String[] permissions, @NonNull int[] grandResults) {
