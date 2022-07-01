@@ -32,6 +32,7 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
+import com.naver.maps.map.overlay.CircleOverlay;
 import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
@@ -330,7 +331,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setMarker(2,latLngList,"charger",naverMap);
         setMarker(3,latLngList,"wheelchair",naverMap);
 
-
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(new LatLng(37.5666102, 126.9783881));
+        circle.setRadius(30);
+        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setMap(naverMap);
         /*
 
         Marker marker = new Marker();
