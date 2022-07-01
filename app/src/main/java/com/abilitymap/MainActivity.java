@@ -18,13 +18,16 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
+import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener {
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
 
@@ -70,10 +73,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.naverMap = naverMap;
         naverMap.setLocationSource(locationSource);//현재 위치 표시
 
+        latLngList.add(new LatLng(37.5670135,126.9783740));
+
+        Marker marker = new Marker();
+        marker.setPosition(latLngList.get(0));
+        marker.setMap(naverMap);
+
+        marker.setWidth(100);
+        marker.setHeight(100);
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger));
+        marker.setOnClickListener(this);
+
         ActivityCompat.requestPermissions(this, PERMISSIONS,
                 PERMISSIONS_REQUEST_CODE); //퍼미션 요청 확인
         Log.d("MainActivity", "onMapReady");
-
 
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(true);
@@ -81,12 +94,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
 
-
         LocationButtonView locationButtonView = findViewById(R.id.navermap_location_button);
         locationButtonView.setMap(naverMap);
     }
 
-
+//
     @Override
     public void onRequestPermissionsResult ( int requestCode,
                                              @NonNull String[] permissions, @NonNull int[] grandResults) {
@@ -128,5 +140,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
+    @Override
+    public boolean onClick(@NonNull Overlay overlay) {
+        if(overlay instanceof Marker){
+            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
 }
 
