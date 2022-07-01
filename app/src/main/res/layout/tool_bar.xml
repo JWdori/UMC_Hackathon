@@ -57,13 +57,6 @@
             android:layout_alignParentRight="true" />
 
 
-        <com.naver.maps.map.widget.LocationButtonView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/navigation_menu"
-            app:headerLayout="@layout/layout_navigation_header"
-            android:layout_gravity="start"
-            ></com.naver.maps.map.widget.LocationButtonView>
 
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
