@@ -23,7 +23,7 @@
         </activity>
 
 
-        <activity android:name="com.abilitymap.MainActivity"
+        <activity android:name="com.abilitymap.MainActivity" android:theme="@style/activityTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
