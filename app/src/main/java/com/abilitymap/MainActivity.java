@@ -44,8 +44,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
@@ -161,9 +162,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         if(overlay instanceof Marker){
             Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
+
+            LocationDetailFragment infoFragment = new LocationDetailFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).commit();
             return true;
         }
         return false;
+
     }
 
 
@@ -320,6 +325,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
 
+        latLngList.add(new LatLng(37.5670135,126.9783740));
+        latLngList.add(new LatLng(37.6670135,126.5783740));
+        latLngList.add(new LatLng(37.4670135,126.3783740));
+        latLngList.add(new LatLng(37.2670135,126.0783740));
+
+        setMarker(0,latLngList,"danger",naverMap);
+        setMarker(1,latLngList,"slope",naverMap);
+        setMarker(2,latLngList,"charger",naverMap);
+        setMarker(3,latLngList,"wheelchair",naverMap);
+
+
+        /*
+
+        Marker marker = new Marker();
+        marker.setPosition(latLngList.get(0));
+        marker.setMap(naverMap);
+
+        marker.setOnClickListener(this);
+
+*/
 
         /*
         final TextView textView_lat = findViewById(R.id.lat);
