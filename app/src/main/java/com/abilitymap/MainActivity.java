@@ -17,7 +17,9 @@ import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.util.FusedLocationSource;
+import com.naver.maps.map.widget.LocationButtonView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ActivityCompat.requestPermissions(this, PERMISSIONS,
                 PERMISSIONS_REQUEST_CODE); //퍼미션 요청 확인
         Log.d("MainActivity", "onMapReady");
+
+
+        UiSettings uiSettings = naverMap.getUiSettings();
+        uiSettings.setCompassEnabled(true);
+        uiSettings.setScaleBarEnabled(true);
+        uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
+        uiSettings.setLocationButtonEnabled(true);
+
+
+        LocationButtonView locationButtonView = findViewById(R.id.navermap_location_button);
+        locationButtonView.setMap(naverMap);
     }
 
 
@@ -108,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 }
             }
-            
+
             if (grandResults.length > 0 && grandResults[0] == PackageManager.PERMISSION_GRANTED) {
                 naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
             }
