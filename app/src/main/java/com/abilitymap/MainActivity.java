@@ -32,6 +32,8 @@ import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
+import com.naver.maps.map.overlay.CircleOverlay;
+import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
@@ -42,6 +44,7 @@ import com.naver.maps.map.widget.LocationButtonView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -98,21 +101,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
 
 
-        PolygonOverlay polygon = new PolygonOverlay();
-        polygon.setCoords(Arrays.asList(
-                new LatLng(37.5640984, 126.9712268),
-                new LatLng(37.5651279, 126.9767904),
-                new LatLng(37.5625365, 126.9832241),
-                new LatLng(37.5585305, 126.9809297),
-                new LatLng(37.5590777, 126.974617)
-        ));
-        polygon.setMap(naverMap);
-        polygon.setColor(Color.parseColor("#50FF7B00"));
-        polygon.setOutlineWidth(10);
-
-
 
     }
+
+
+
 
 
 //
@@ -317,6 +310,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
+        naverMap.setMaxZoom(18.0);
+        naverMap.setMinZoom(8.0);
+
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
@@ -335,7 +331,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setMarker(2,latLngList,"charger",naverMap);
         setMarker(3,latLngList,"wheelchair",naverMap);
 
-
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(new LatLng(37.5666102, 126.9783881));
+        circle.setRadius(30);
+        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setMap(naverMap);
         /*
 
         Marker marker = new Marker();
