@@ -340,9 +340,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 String address = getCurrentAddress(latitude, longitude);
 
-                location_text.setText(address);
+
                 String addrCut[] = address.split(" ");
-                //location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
+                location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
 
 
 
