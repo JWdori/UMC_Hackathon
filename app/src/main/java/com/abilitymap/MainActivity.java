@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-
+import android.location.Address;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Address;
+import java.text.SimpleDateFormat;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.util.Log;
@@ -41,12 +42,13 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener {
+    private GpsTracker gpsTracker;
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private TextView location_text;
 
-
+    private Location mLastlocation = null;
+    private double speed, calSpeed, getSpeed;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -95,46 +97,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-
-
-
-
-
-    @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
-        location_text = (TextView)findViewById(R.id.location_text);
-        this.naverMap = naverMap;
-        naverMap.setLocationSource(locationSource);//현재 위치 표시
-
-        latLngList.add(new LatLng(37.5670135,126.9783740));
-
-        naverMap.addOnLocationChangeListener(location ->
-                Toast.makeText(this,
-                        location.getLatitude() + ", " + location.getLongitude(),
-                        Toast.LENGTH_SHORT).show());
-
-        Marker marker = new Marker();
-        marker.setPosition(latLngList.get(0));
-        marker.setMap(naverMap);
-
-        marker.setWidth(100);
-        marker.setHeight(100);
-        marker.setIcon(OverlayImage.fromResource(R.drawable.danger));
-        marker.setOnClickListener(this);
-
-        ActivityCompat.requestPermissions(this, PERMISSIONS,
-                PERMISSIONS_REQUEST_CODE); //퍼미션 요청 확인
-        Log.d("MainActivity", "onMapReady");
-
-        UiSettings uiSettings = naverMap.getUiSettings();
-        uiSettings.setCompassEnabled(true);
-        uiSettings.setScaleBarEnabled(true);
-        uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
-        uiSettings.setLocationButtonEnabled(true);
-
-        LocationButtonView locationButtonView = findViewById(R.id.navermap_location_button);
-        locationButtonView.setMap(naverMap);
-    }
 
 //
     @Override
@@ -247,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             addresses = geocoder.getFromLocation(
                     latitude,
                     longitude,
-                    7);
+                    8);
         } catch (IOException ioException) {
             //네트워크 문제
             Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
@@ -265,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         Address address = addresses.get(0);
+
         return address.getAddressLine(0).toString()+"\n";
 
     }
@@ -327,6 +290,89 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
+
+
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+        this.naverMap = naverMap;
+        naverMap.setLocationSource(locationSource);
+        naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+
+
+
+        final TextView location_text = (TextView)findViewById(R.id.location_text);
+
+
+
+        /*
+        final TextView textView_lat = findViewById(R.id.lat);
+        final TextView textView_lon = findViewById(R.id.lon);
+        */
+//        final TextView tvGetSpeed = findViewById(R.id.tvGetspeed);
+//        final TextView tvCalSpeed = findViewById(R.id.tvCalspeed);
+
+
+        naverMap.addOnLocationChangeListener(new NaverMap.OnLocationChangeListener() {
+            @Override
+            public void onLocationChange(@NonNull Location location) {
+
+                gpsTracker = new GpsTracker(MainActivity.this);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                double deltaTime = 0;
+
+                // getSpeed() 함수를 이용하여 속도 계산(m/s -> km/h)
+                getSpeed = Double.parseDouble(String.format("%.3f", location.getSpeed() * 3.6));
+
+                // 위치 변경이 두번째로 변경된 경우 계산에 의해 속도 계산
+                if(mLastlocation != null){
+                    deltaTime = (location.getTime() - mLastlocation.getTime());
+                    // 속도 계산(시간=ms, 거리=m -> km/h)
+                    speed = (mLastlocation.distanceTo(location) / deltaTime) * 3600;
+                    calSpeed = Double.parseDouble(String.format("%.3f", speed));
+                }
+                //현재위치를 지난 위치로 변경
+                mLastlocation = location;
+
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude();
+
+                String address = getCurrentAddress(latitude, longitude);
+
+                location_text.setText(address);
+                String addrCut[] = address.split(" ");
+                //location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
+
+
+
+
+                String lat_str = Double.toString(latitude);
+                String lon_str = Double.toString(longitude);
+
+                /*
+                textView_lat.setText(lat_str);
+                textView_lon.setText(lon_str);
+                 */
+                UiSettings uiSettings = naverMap.getUiSettings();
+                uiSettings.setCompassEnabled(true);
+                uiSettings.setScaleBarEnabled(true);
+                uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
+                uiSettings.setLocationButtonEnabled(true);
+
+                LocationButtonView locationButtonView = findViewById(R.id.navermap_location_button);
+                locationButtonView.setMap(naverMap);
+
+                String gs_str = Double.toString(getSpeed);
+                String cs_str = Double.toString(calSpeed);
+
+
+
+            }
+        });
+
+    }
+
 
 
 }
