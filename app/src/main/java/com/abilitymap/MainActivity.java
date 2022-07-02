@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d("click event","onMapClick");
                 }
             });
+
+
             return true;
         }
         return false;
