@@ -368,17 +368,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
         marker.setMinZoom(8);
         marker.setMaxZoom(15);
-        marker.setWidth(120);
-        marker.setHeight(120);
+        marker.setWidth(80);
+        marker.setHeight(80);
         marker.setMap(naverMap);
 
         Marker marker2 = new Marker();
         marker2.setPosition(new LatLng(x,y));
         marker2.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker2.setMinZoom(17);
+        marker2.setMinZoom(16);
         marker.setMaxZoom(15);
-        marker2.setWidth(120);
-        marker2.setHeight(120);
+        marker2.setWidth(80);
+        marker2.setHeight(80);
         marker2.setMap(naverMap);
 
 
@@ -401,21 +401,65 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
 
-        latLngList.add(new LatLng(37.5670135,126.9783740));
-        latLngList.add(new LatLng(37.6670135,126.5783740));
-        latLngList.add(new LatLng(37.4670135,126.3783740));
-        latLngList.add(new LatLng(37.2670135,126.0783740));
+        latLngList.add(new LatLng(37.300909685747236,126.84036999665139 )); //주민센터
+        latLngList.add(new LatLng(37.30092006963348,126.84651707027692  )); //상록구청
+        latLngList.add(new LatLng(37.30080820319068,126.84365805640256  )); //119
+        latLngList.add(new LatLng(37.30030995420335,126.8450464027002  )); //상록보건소
+        latLngList.add(new LatLng(37.299298647544646,126.84512742919043   )); //상록경찰서
+        latLngList.add(new LatLng(37.30578504908008,126.84432454144101    )); //지역아동센터
 
-        setMarker(0,latLngList,"danger",naverMap);
+
+        latLngList.add(new LatLng(37.29964234222025,126.84612490571303   )); //장애인
+        latLngList.add(new LatLng(37.299632110432704,126.8469200877772   )); //장애인
+        latLngList.add(new LatLng(37.29891910144883,126.84600231252934    )); //장애인
+        latLngList.add(new LatLng(37.298322034553244,126.84590202160551     )); //장애인
+        latLngList.add(new LatLng(37.30157589850863,126.8450381659243      )); //장애인
+
+        latLngList.add(new LatLng(37.30012291575613,126.83825685541521     )); //약국
+        latLngList.add(new LatLng(37.30078496095471,126.843116709908      )); //약국
+
+        latLngList.add(new LatLng(37.298925701379005,126.84588105222103       )); //급속충전기
+
+        latLngList.add(new LatLng(37.298495139953886,126.83723115856097        )); //경사로
+        latLngList.add(new LatLng(37.30175911322991,126.84389859082773        )); //경사로
+        latLngList.add(new LatLng(37.30021510929659,126.8448661337656        )); //경사로
+        latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
+        latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
+
+
+        setMarker(0,latLngList,"slope",naverMap);
         setMarker(1,latLngList,"slope",naverMap);
-        setMarker(2,latLngList,"charger",naverMap);
-        setMarker(3,latLngList,"wheelchair",naverMap);
+        setMarker(2,latLngList,"slope",naverMap);
+        setMarker(3,latLngList,"slope",naverMap);
+        setMarker(4,latLngList,"slope",naverMap);
+        setMarker(5,latLngList,"slope",naverMap);
+
+        setMarker(6,latLngList,"slope",naverMap);
+        setMarker(7,latLngList,"slope",naverMap);
+        setMarker(8,latLngList,"slope",naverMap);
+        setMarker(9,latLngList,"slope",naverMap);
+        setMarker(10,latLngList,"slope",naverMap);
+
+        setMarker(11,latLngList,"slope",naverMap);
+        setMarker(12,latLngList,"slope",naverMap);
+
+        setMarker(13,latLngList,"charger",naverMap);
+
+        setMarker(14,latLngList,"wheelchair",naverMap);
+        setMarker(15,latLngList,"wheelchair",naverMap);
+        setMarker(16,latLngList,"wheelchair",naverMap);
+        setMarker(17,latLngList,"wheelchair",naverMap);
+        setMarker(18,latLngList,"wheelchair",naverMap);
 
 
-        UpdateCircle(37.300930274423386,126.84060399395506);
-        UpdateCircle(37.301087156219666,126.84001151017893);
 
-
+        //사고 다발 지역
+        UpdateCircle(37.30155838266366,126.84715868584975 );
+        UpdateCircle(37.30731010483543,126.83602493657628 );
+        UpdateCircle(37.30314238314502,126.8389891901272  );
+        UpdateCircle(37.29787636235218,126.84966999005518);
+        UpdateCircle(37.305613496417976,126.84751143174793 );
+        UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
 
@@ -490,6 +534,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String cs_str = Double.toString(calSpeed);
 
 
+                //api 가져오는 부분
 
                 Thread th = new Thread(String.valueOf(MainActivity.this));
                 new Thread(() -> {
@@ -552,7 +597,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 }
 
-                Toast.makeText(getApplicationContext(), ""+items+"ek", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), ""+items+"ek", Toast.LENGTH_SHORT).show();
 
             }
 
