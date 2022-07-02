@@ -7,14 +7,14 @@
    
 #### Member
 > App (Android)
-- 임재완(PM)   
-- 오상희     
-- 정현규   
+- 임재완(PM)  [@jaewan0114](https://github.com/jaewan0114)
+- 오상희 [@sh-532](https://github.com/sh-532)     
+- 정현규 [@hkjeong2](https://github.com/hkjeong2)   
 
 > Server (Node.js)
-- 서위영    
-- 윤진난   
-- 곽정아  
+- 서위영 [@HBSPS](https://github.com/HBSPS)   
+- 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)   
+- 곽정아   
    
 > Designer 
 - 정민희
