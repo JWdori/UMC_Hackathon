@@ -44,6 +44,86 @@
 <img src="./img/map_detail.jpg" height="680px" width="350px">
 3. 수집한 위험 지역 주의 표시
 <img src="./img/map3.jpg" height="680px" width="350px">
+4. 데이터 EXAMPLE
+# 모든 위치 받아오기
+
+## Request
+
+### Header
+
+| Name | Type | Example | Nullable | Description | Default |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
+### Query String
+
+| Name | Type | Example | Nullable | Description | Default |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
+### Body
+
+| Name | Type | Example | Nullable | Description | Default |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  |  |
+
+## Response
+
+| Name | Type | Example | Nullable | Description |
+| --- | --- | --- | --- | --- |
+| isSuccess | boolean | true | N |  |
+| code | int | 1000 | N |  |
+| message | string | 성공 | N |  |
+| result | object |  | Y |  |
+| ㄴname | varchar(50) | 유앤아이 피부과의원 왕십리점 |  | 장소 이름 |
+| ㄴlat | double | 37.5617465 |  | 위도 |
+| ㄴlon | double | 127.0342572 |  | 경도 |
+| ㄴtel | varchar(15) | 02-2275-6020 |  | 전화번호 |
+| ㄴloacation | varchar(20) | 2, 3층 |  | 상세 주소 |
+| ㄴweek | varchar(50) | 10:00 - 20:30 / 13:00 - 14:00 점심시간 |  | 주중 영업 시간 |
+| ㄴweekend | varchar(50) | 토 10:00 - 17:00 |  | 주말 영업 시간 |
+| ㄴholiday | varchar(30) | 일 정기휴무 |  | 공휴일 영업 시간 |
+| ㄴvar | varvhar(1) | X |  | 주중 또는 주말에 특별히 다른 시간에 운영 되는지 여부 |
+
+### Status Code
+
+| Code | Message |
+| --- | --- |
+| 1000 | SUCCESS, 성공 |
+| 4000 | DB_ERROR, 데이터 베이스 에러 |
+| 4001 | SERVER_ERROR, 서버 에러 |
+
+### Example
+URL: http://3.35.237.29/total
+```json
+{
+"isSuccess": true,
+"code": 1000,
+"message": "성공",
+"result": [
+	{
+		"name": "한양대학교 병원",
+		"lat": 37.5596569,
+		"lon": 127.0441339,
+		"tel": "02-2290-8114",
+		"location": "",
+		"week": "08:30 - 17:30",
+		"weekend": "휴무 응급센터 종일진료",
+		"holiday": "휴무 응급센터 종일진료",
+		"var": "X"
+	},
+	{
+		"name": "유앤아이 피부과의원 왕십리점",
+		"lat": 37.5617465,
+		"lon": 127.0342572,
+		"tel": "02-2275-6020",
+		"location": "2, 3층",
+		"week": "10:00 - 20:30 / 13:00 - 14:00 점심시간",
+		"weekend": "토 10:00 - 17:00",
+		"holiday": "일 정기휴무",
+		"var": "X"
+	}
+```
 
 - 네이버 맵 API르 이용하여 지도 표시 : 메인지도
 - 네이버 플레이스에서 검색으로 기관명, 주소 크롤링 : 데이터
