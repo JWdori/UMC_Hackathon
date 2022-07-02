@@ -11,15 +11,23 @@ import android.graphics.PointF;
 import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -65,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-
+    List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -126,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             checkRunTimePermission();
         }
         locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
+
+        items = new ArrayList<>();
+        // 핸들러
 
 
 
@@ -405,6 +416,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UpdateCircle(37.301087156219666,126.84001151017893);
 
 
+
         /*
 
         Marker marker = new Marker();
@@ -424,6 +436,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         naverMap.addOnLocationChangeListener(new NaverMap.OnLocationChangeListener() {
+
             @Override
             public void onLocationChange(@NonNull Location location) {
 
@@ -478,8 +491,73 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+                Thread th = new Thread(String.valueOf(MainActivity.this));
+                new Thread(() -> {
+                    th.start(); // network 동작, 인터넷에서 xml을 받아오는 코드
+                }).start();
+
+
+
+                try {
+                    StringBuffer sb = new StringBuffer();
+                    URL url = new URL("http://3.35.237.29/total");
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                    // 저 경로의 source를 받아온다.
+                    if (conn != null) {
+                        conn.setConnectTimeout(5000);
+                        conn.setUseCaches(false);
+
+                        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+                            while (true) {
+                                String line = br.readLine();
+                                if (line == null)
+                                    break;
+                                sb.append(line + "\n");
+                            }
+                            Log.d("myLog", sb.toString());
+                            br.close();
+                        }
+                        conn.disconnect();
+                    }
+
+                    // 받아온 source를 JSONObject로 변환한다.
+                    JSONObject jsonObj = new JSONObject(sb.toString());
+                    JSONArray jArray = (JSONArray) jsonObj.get("result");
+
+                    // 0번째 JSONObject를 받아옴
+                    JSONObject row = jArray.getJSONObject(0);
+                    DTO dto = new DTO();
+                    dto.setName(row.getString("name"));
+                    dto.setTel(row.getString("tel"));
+                    items.add(dto);
+
+                    Log.d("받아온값1 : ", row.getString("name"));
+                    Log.d("받아온값2 : ", row.getString("tel"));
+
+                    // 1번째 JSONObject를 받아옴
+                    JSONObject row2 = jArray.getJSONObject(1);
+                    DTO dto2 = new DTO();
+                    dto2.setName(row2.getString("name"));
+                    dto2.setTel(row2.getString("tel"));
+                    items.add(dto2);
+
+                    Log.d("받아온값3 : ", row2.getString("name"));
+                    Log.d("받아온값4 : ", row2.getString("tel"));
+
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+
+                Toast.makeText(getApplicationContext(), ""+items+"ek", Toast.LENGTH_SHORT).show();
+
             }
+
         });
+
 
     }
 
