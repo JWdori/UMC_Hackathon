@@ -44,8 +44,7 @@
 <img src="./img/map_detail.jpg" height="680px" width="350px">
 3. 수집한 위험 지역 주의 표시
 <img src="./img/map3.jpg" height="680px" width="350px">
-4. 데이터 EXAMPLE
-# 모든 위치 받아오기
+
 
 ## Request
 
@@ -93,8 +92,8 @@
 | 4000 | DB_ERROR, 데이터 베이스 에러 |
 | 4001 | SERVER_ERROR, 서버 에러 |
 
+### URL: http://3.35.237.29/total
 ### Example
-URL: http://3.35.237.29/total
 ```json
 {
 "isSuccess": true,
