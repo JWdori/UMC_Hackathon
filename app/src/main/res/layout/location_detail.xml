@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="top"
         android:id="@+id/detail_layout"
         android:layout_width="match_parent"
         android:layout_height="320dp"

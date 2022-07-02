@@ -32,6 +32,7 @@ tools:context=".MainActivity">
         android:src="@drawable/call_button"
         android:visibility="visible"
         android:background="#00ffffff"
+        android:layout_above="@+id/detail_layout"
         android:layout_alignRight="@+id/map"
         android:layout_alignBottom="@+id/map"
         android:layout_marginBottom="24dp"
@@ -39,6 +40,10 @@ tools:context=".MainActivity">
         />
 
     <include layout="@layout/tool_bar" />
+
+
+
+
 
     <!--    <com.naver.maps.map.widget.LocationButtonView-->
 <!--        android:layout_width="wrap_content"-->

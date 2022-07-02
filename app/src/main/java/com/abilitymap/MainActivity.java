@@ -4,13 +4,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Address;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import java.text.SimpleDateFormat;
@@ -21,9 +19,12 @@ import android.os.Build;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
-import android.view.DragEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -33,26 +34,22 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
-import com.naver.maps.map.MapFragment;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.CircleOverlay;
-import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
-import com.naver.maps.map.overlay.PolygonOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
@@ -77,6 +74,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     List<LatLng> latLngList = new ArrayList<>();
+
+//    List<Double> latitudeList = new ArrayList<Double>();
+//    List<Double> longitudeList = new ArrayList<Double>();
+//
+//    double LNG = Double.parseDouble(latitudeList.toString());
+//    double LAT = Double.parseDouble(longitudeList.toString());
+//
+//
+//try {
+//
+//        JSONObject Land = new JSONObject(result);
+//        JSONArray jsonArray = Land.getJSONArray("Response");
+//        for(int i = 0 ; i<jsonArray.length(); i++){
+//            JSONObject subJsonObject = jsonArray.getJSONObject(i);
+//
+//            Double sLAT = subJsonObject.getDouble("latitude"); //String sLAT = subJsonObject.getString("latitude");
+//            Double sLNG = subJsonObject.getDouble("longitude"); //String sLNG = subJsonObject.getString("longitude");
+//
+//            latitudeList.add(sLAT);
+//            longitudeList.add(sLNG);
+//        }
+//    } catch (
+//    JSONException e) {
+//        e.printStackTrace();
+//    }
 
 
 
@@ -157,8 +179,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onClick(@NonNull Overlay overlay) {
+        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        Call_button.setVisibility(View.INVISIBLE);
+        Report_button.setVisibility(View.INVISIBLE);
+
         if(overlay instanceof Marker){
-            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
+//            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).commit();
@@ -166,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    Call_button.setVisibility(View.VISIBLE);
+                    Report_button.setVisibility(View.VISIBLE);
                     Log.d("click event","onMapClick");
                 }
             });
@@ -347,6 +376,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
+//        LatLng initialPosition = new LatLng(mLastlocation);
+//        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
+//        naverMap.moveCamera(cameraUpdate);
         naverMap.setMaxZoom(18.0);
         naverMap.setMinZoom(8.0);
 
