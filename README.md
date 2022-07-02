@@ -29,12 +29,20 @@
 #### 어빌리티 맵
 편의시설과 위험지역에 대한 정보 제공으로  **교통약자의 안전과 이동편의 증진**  
 > _#편의증진_ _#교통약자_ _#사회적가치_ _#사회적문제해결_ _#지도_
-   
-### 구현 기능
-~~작성하기~~
-     
-#### Information Architecture
+
+#### Information Architecture.  
 <img src="./img/IA.png" height="600px" width="950px">   
 
 #### Flow Chart
 <img src="./img/FlowChart.png"> 
+   
+#### 구현 기능
+1. 주변 복지센터, 병원, 관공서(행정) 안내
+<img src="./img/map1.jpg" height="680px" width="350px">
+<img src="./img/map2.jpg" height="680px" width="350px">
+2. 상세 주소 확인
+<img src="./img/map_detail.jpg" height="680px" width="350px">
+3. 수집한 위험 지역 주의 표시
+<img src="./img/map3.jpg" height="680px" width="350px">
+     
+
