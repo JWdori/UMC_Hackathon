@@ -14,7 +14,7 @@
 > Server (Node.js)
 - 서위영 [@HBSPS](https://github.com/HBSPS)   
 - 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)   
-- 곽정아   
+- 곽정아 [@JungAh](https://github.com/Jungahgo)   
    
 > Designer 
 - 정민희
@@ -32,7 +32,7 @@
    
 ### 구현 기능
 ~~작성하기~~
-
+     
 #### Information Architecture
 <img src="./img/IA.png" height="600px" width="950px">   
 
