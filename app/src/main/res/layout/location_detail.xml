@@ -154,11 +154,13 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginStart="8dp"
+                android:autoLink="phone"
+                android:textColor="#007fff"
                 android:text="031-604-7575"
                 android:fontFamily="sans-serif-medium"
                 android:textStyle="normal"
                 android:textSize="16sp"
-                android:textColor="#007fff"
+
                 android:letterSpacing="0.01"
                 android:lineSpacingExtra="3.2sp"
 
