@@ -2,11 +2,13 @@ package com.abilitymap;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
