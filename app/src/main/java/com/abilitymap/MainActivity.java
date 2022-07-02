@@ -306,6 +306,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    private void UpdateCircle(double x, double y){
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(new LatLng(x, y));
+        circle.setRadius(30);
+        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
+        circle.setMap(naverMap);
+        circle.setMinZoom(15);
+
+        Marker marker = new Marker();
+        marker.setPosition(new LatLng(x,y));
+        marker.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
+        marker.setMinZoom(8);
+        marker.setMaxZoom(15);
+        marker.setWidth(120);
+        marker.setHeight(120);
+        marker.setMap(naverMap);
+
+        Marker marker2 = new Marker();
+        marker2.setPosition(new LatLng(x,y));
+        marker2.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
+        marker2.setMinZoom(17);
+        marker.setMaxZoom(15);
+        marker2.setWidth(120);
+        marker2.setHeight(120);
+        marker2.setMap(naverMap);
+
+
+    }
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
@@ -331,11 +360,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setMarker(2,latLngList,"charger",naverMap);
         setMarker(3,latLngList,"wheelchair",naverMap);
 
-        CircleOverlay circle = new CircleOverlay();
-        circle.setCenter(new LatLng(37.5666102, 126.9783881));
-        circle.setRadius(30);
-        circle.setColor(Color.parseColor("#30FF7B00"));
-        circle.setMap(naverMap);
+
+        UpdateCircle(37.300930274423386,126.84060399395506);
+        UpdateCircle(37.301087156219666,126.84001151017893);
+
+
         /*
 
         Marker marker = new Marker();
