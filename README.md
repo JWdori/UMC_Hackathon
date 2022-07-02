@@ -44,5 +44,13 @@
 <img src="./img/map_detail.jpg" height="680px" width="350px">
 3. 수집한 위험 지역 주의 표시
 <img src="./img/map3.jpg" height="680px" width="350px">
+
+- 네이버 맵 API르 이용하여 지도 표시 : 메인지도
+- 네이버 플레이스에서 검색으로 기관명, 주소 크롤링 : 데이터
+- 장소 마커 표시 : 마커
+- 위험 지역 ; 데이터
+- 어빌리티 앱 IA, Flow-Chart
+- Splash, Icon 제작 
+
      
 
