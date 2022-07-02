@@ -4,9 +4,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.location.Address;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -139,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
                     finish();
 
-
                 } else {
 
                     Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
@@ -160,14 +161,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
-
-
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).commit();
+            naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    Log.d("click event","onMapClick");
+                }
+            });
             return true;
         }
         return false;
 
     }
+
 
 
 
