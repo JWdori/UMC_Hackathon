@@ -18,6 +18,9 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
+
+import android.view.DragEvent;
+import android.view.View;
 import android.widget.TextView;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
@@ -157,18 +160,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
+
+
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).commit();
             return true;
         }
         return false;
 
     }
-
-
-
-
-
-
 
 
 
