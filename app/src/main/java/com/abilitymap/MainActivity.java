@@ -4,26 +4,35 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Address;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
-import android.view.DragEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
@@ -33,26 +42,22 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
-import com.naver.maps.map.MapFragment;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.CircleOverlay;
-import com.naver.maps.map.overlay.LocationOverlay;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
-import com.naver.maps.map.overlay.PolygonOverlay;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-
+    List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -77,6 +82,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     List<LatLng> latLngList = new ArrayList<>();
+
+//    List<Double> latitudeList = new ArrayList<Double>();
+//    List<Double> longitudeList = new ArrayList<Double>();
+//
+//    double LNG = Double.parseDouble(latitudeList.toString());
+//    double LAT = Double.parseDouble(longitudeList.toString());
+//
+//
+//try {
+//
+//        JSONObject Land = new JSONObject(result);
+//        JSONArray jsonArray = Land.getJSONArray("Response");
+//        for(int i = 0 ; i<jsonArray.length(); i++){
+//            JSONObject subJsonObject = jsonArray.getJSONObject(i);
+//
+//            Double sLAT = subJsonObject.getDouble("latitude"); //String sLAT = subJsonObject.getString("latitude");
+//            Double sLNG = subJsonObject.getDouble("longitude"); //String sLNG = subJsonObject.getString("longitude");
+//
+//            latitudeList.add(sLAT);
+//            longitudeList.add(sLNG);
+//        }
+//    } catch (
+//    JSONException e) {
+//        e.printStackTrace();
+//    }
 
 
 
@@ -104,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             checkRunTimePermission();
         }
         locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
+
+        items = new ArrayList<>();
+        // 핸들러
 
 
 
@@ -157,8 +190,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onClick(@NonNull Overlay overlay) {
+        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        Call_button.setVisibility(View.INVISIBLE);
+        Report_button.setVisibility(View.INVISIBLE);
+
         if(overlay instanceof Marker){
-            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
+//            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).commit();
@@ -166,6 +204,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    Call_button.setVisibility(View.VISIBLE);
+                    Report_button.setVisibility(View.VISIBLE);
                     Log.d("click event","onMapClick");
                 }
             });
@@ -328,17 +368,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
         marker.setMinZoom(8);
         marker.setMaxZoom(15);
-        marker.setWidth(120);
-        marker.setHeight(120);
+        marker.setWidth(80);
+        marker.setHeight(80);
         marker.setMap(naverMap);
 
         Marker marker2 = new Marker();
         marker2.setPosition(new LatLng(x,y));
         marker2.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker2.setMinZoom(17);
+        marker2.setMinZoom(16);
         marker.setMaxZoom(15);
-        marker2.setWidth(120);
-        marker2.setHeight(120);
+        marker2.setWidth(80);
+        marker2.setHeight(80);
         marker2.setMap(naverMap);
 
 
@@ -347,6 +387,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
+//        LatLng initialPosition = new LatLng(mLastlocation);
+//        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
+//        naverMap.moveCamera(cameraUpdate);
         naverMap.setMaxZoom(18.0);
         naverMap.setMinZoom(8.0);
 
@@ -358,20 +401,65 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
 
-        latLngList.add(new LatLng(37.5670135,126.9783740));
-        latLngList.add(new LatLng(37.6670135,126.5783740));
-        latLngList.add(new LatLng(37.4670135,126.3783740));
-        latLngList.add(new LatLng(37.2670135,126.0783740));
+        latLngList.add(new LatLng(37.300909685747236,126.84036999665139 )); //주민센터
+        latLngList.add(new LatLng(37.30092006963348,126.84651707027692  )); //상록구청
+        latLngList.add(new LatLng(37.30080820319068,126.84365805640256  )); //119
+        latLngList.add(new LatLng(37.30030995420335,126.8450464027002  )); //상록보건소
+        latLngList.add(new LatLng(37.299298647544646,126.84512742919043   )); //상록경찰서
+        latLngList.add(new LatLng(37.30578504908008,126.84432454144101    )); //지역아동센터
 
-        setMarker(0,latLngList,"danger",naverMap);
+
+        latLngList.add(new LatLng(37.29964234222025,126.84612490571303   )); //장애인
+        latLngList.add(new LatLng(37.299632110432704,126.8469200877772   )); //장애인
+        latLngList.add(new LatLng(37.29891910144883,126.84600231252934    )); //장애인
+        latLngList.add(new LatLng(37.298322034553244,126.84590202160551     )); //장애인
+        latLngList.add(new LatLng(37.30157589850863,126.8450381659243      )); //장애인
+
+        latLngList.add(new LatLng(37.30012291575613,126.83825685541521     )); //약국
+        latLngList.add(new LatLng(37.30078496095471,126.843116709908      )); //약국
+
+        latLngList.add(new LatLng(37.298925701379005,126.84588105222103       )); //급속충전기
+
+        latLngList.add(new LatLng(37.298495139953886,126.83723115856097        )); //경사로
+        latLngList.add(new LatLng(37.30175911322991,126.84389859082773        )); //경사로
+        latLngList.add(new LatLng(37.30021510929659,126.8448661337656        )); //경사로
+        latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
+        latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
+
+
+        setMarker(0,latLngList,"slope",naverMap);
         setMarker(1,latLngList,"slope",naverMap);
-        setMarker(2,latLngList,"charger",naverMap);
-        setMarker(3,latLngList,"wheelchair",naverMap);
+        setMarker(2,latLngList,"slope",naverMap);
+        setMarker(3,latLngList,"slope",naverMap);
+        setMarker(4,latLngList,"slope",naverMap);
+        setMarker(5,latLngList,"slope",naverMap);
+
+        setMarker(6,latLngList,"slope",naverMap);
+        setMarker(7,latLngList,"slope",naverMap);
+        setMarker(8,latLngList,"slope",naverMap);
+        setMarker(9,latLngList,"slope",naverMap);
+        setMarker(10,latLngList,"slope",naverMap);
+
+        setMarker(11,latLngList,"slope",naverMap);
+        setMarker(12,latLngList,"slope",naverMap);
+
+        setMarker(13,latLngList,"charger",naverMap);
+
+        setMarker(14,latLngList,"wheelchair",naverMap);
+        setMarker(15,latLngList,"wheelchair",naverMap);
+        setMarker(16,latLngList,"wheelchair",naverMap);
+        setMarker(17,latLngList,"wheelchair",naverMap);
+        setMarker(18,latLngList,"wheelchair",naverMap);
 
 
-        UpdateCircle(37.300930274423386,126.84060399395506);
-        UpdateCircle(37.301087156219666,126.84001151017893);
 
+        //사고 다발 지역
+        UpdateCircle(37.30155838266366,126.84715868584975 );
+        UpdateCircle(37.30731010483543,126.83602493657628 );
+        UpdateCircle(37.30314238314502,126.8389891901272  );
+        UpdateCircle(37.29787636235218,126.84966999005518);
+        UpdateCircle(37.305613496417976,126.84751143174793 );
+        UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
 
@@ -392,6 +480,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         naverMap.addOnLocationChangeListener(new NaverMap.OnLocationChangeListener() {
+
             @Override
             public void onLocationChange(@NonNull Location location) {
 
@@ -445,9 +534,75 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String cs_str = Double.toString(calSpeed);
 
 
+                //api 가져오는 부분
+
+                Thread th = new Thread(String.valueOf(MainActivity.this));
+                new Thread(() -> {
+                    th.start(); // network 동작, 인터넷에서 xml을 받아오는 코드
+                }).start();
+
+
+
+                try {
+                    StringBuffer sb = new StringBuffer();
+                    URL url = new URL("http://3.35.237.29/total");
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                    // 저 경로의 source를 받아온다.
+                    if (conn != null) {
+                        conn.setConnectTimeout(5000);
+                        conn.setUseCaches(false);
+
+                        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
+                            while (true) {
+                                String line = br.readLine();
+                                if (line == null)
+                                    break;
+                                sb.append(line + "\n");
+                            }
+                            Log.d("myLog", sb.toString());
+                            br.close();
+                        }
+                        conn.disconnect();
+                    }
+
+                    // 받아온 source를 JSONObject로 변환한다.
+                    JSONObject jsonObj = new JSONObject(sb.toString());
+                    JSONArray jArray = (JSONArray) jsonObj.get("result");
+
+                    // 0번째 JSONObject를 받아옴
+                    JSONObject row = jArray.getJSONObject(0);
+                    DTO dto = new DTO();
+                    dto.setName(row.getString("name"));
+                    dto.setTel(row.getString("tel"));
+                    items.add(dto);
+
+                    Log.d("받아온값1 : ", row.getString("name"));
+                    Log.d("받아온값2 : ", row.getString("tel"));
+
+                    // 1번째 JSONObject를 받아옴
+                    JSONObject row2 = jArray.getJSONObject(1);
+                    DTO dto2 = new DTO();
+                    dto2.setName(row2.getString("name"));
+                    dto2.setTel(row2.getString("tel"));
+                    items.add(dto2);
+
+                    Log.d("받아온값3 : ", row2.getString("name"));
+                    Log.d("받아온값4 : ", row2.getString("tel"));
+
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+
+//                Toast.makeText(getApplicationContext(), ""+items+"ek", Toast.LENGTH_SHORT).show();
 
             }
+
         });
+
 
     }
 

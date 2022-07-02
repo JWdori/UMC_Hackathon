@@ -7,6 +7,7 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
+import com.naver.maps.map.util.MarkerIcons;
 
 import java.util.List;
 
@@ -16,13 +17,15 @@ public interface SetMarker extends Overlay.OnClickListener {
 
         Marker marker = new Marker();
         marker.setPosition(list.get(index));
-        marker.setWidth(100);
-        marker.setHeight(100);
+        marker.setWidth(80);
+        marker.setHeight(80);
+        marker.setMinZoom(8);
         switch(markerType){
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.danger)); break;
-            case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.danger)); break;
+            case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon)); break;
             case "charger": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "wheelchair": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
+            case "hosp": marker.setIcon(MarkerIcons.YELLOW); break;
         }
         marker.setMap(naverMap);
 
@@ -31,4 +34,6 @@ public interface SetMarker extends Overlay.OnClickListener {
 
     @Override
     boolean onClick(@NonNull Overlay overlay);
+
+
 }
