@@ -1,5 +1,6 @@
 package com.example.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.home.databinding.ActivityMainBinding
@@ -25,7 +26,10 @@ class MainActivity : AppCompatActivity() {
     private fun initSetOnClickListener(){
 
         binding.toolBar.ivMenu.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.home, HomeFragment()).commitAllowingStateLoss()
+//            supportFragmentManager.beginTransaction().replace(R.id.home, HomeFragment()).commitAllowingStateLoss()
+            intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+
         }
 
 

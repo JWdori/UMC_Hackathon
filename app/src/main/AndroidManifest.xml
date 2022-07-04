@@ -20,7 +20,12 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
 
+        </activity>
 
     </application>
 
