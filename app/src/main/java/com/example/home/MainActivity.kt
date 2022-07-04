@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -26,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     private fun initSetOnClickListener(){
 
         binding.toolBar.ivMenu.setOnClickListener {
-//            supportFragmentManager.beginTransaction().replace(R.id.home, HomeFragment()).commitAllowingStateLoss()
             intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
 

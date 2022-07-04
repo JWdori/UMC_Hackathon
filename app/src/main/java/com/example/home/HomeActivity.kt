@@ -15,11 +15,11 @@ class HomeActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        init()
+        initClickListener()
 
     }
 
-    private fun init(){
+    private fun initClickListener(){
         binding.ivClose.setOnClickListener { finish() }
     }
 
