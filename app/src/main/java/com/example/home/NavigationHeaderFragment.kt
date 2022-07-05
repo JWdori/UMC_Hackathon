@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.home.databinding.FragmentHomeBinding
+import com.example.home.databinding.FragmentNavigationHeaderBinding
 
-class HomeFragment : Fragment() {
+class NavigationHeaderFragment : Fragment() {
 
-    lateinit var binding:FragmentHomeBinding
+    lateinit var binding:FragmentNavigationHeaderBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentNavigationHeaderBinding.inflate(inflater, container, false)
 
 
         initClickListener()
@@ -26,10 +27,8 @@ class HomeFragment : Fragment() {
 
     private fun initClickListener(){
         binding.ivClose.setOnClickListener {
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.remove(this)
-                ?.commit()
+            
+
         }
 
     }
