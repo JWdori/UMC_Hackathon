@@ -33,6 +33,7 @@
         android:backgroundTint="#007fff"
         app:itemTextColor="@color/white"
         app:itemIconSize="32dp"
+        app:itemIconTint="@color/white"
         app:itemTextAppearance="@style/Widget.BottomNavigationView" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

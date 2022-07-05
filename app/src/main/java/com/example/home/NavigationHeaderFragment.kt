@@ -11,6 +11,20 @@ import com.example.home.databinding.FragmentNavigationHeaderBinding
 class NavigationHeaderFragment : Fragment() {
 
     lateinit var binding:FragmentNavigationHeaderBinding
+
+//    interface MyItemClickListener{
+//        fun onClick(view: View)
+//    }
+//
+//    private lateinit var mItemClickListener: MyItemClickListener
+//
+//    fun setMyItemClickListener(itemClickListener: MyItemClickListener){
+//        mItemClickListener = itemClickListener
+//    }
+//
+//    fun onClick(view : View){
+//    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,10 +40,7 @@ class NavigationHeaderFragment : Fragment() {
     }
 
     private fun initClickListener(){
-        binding.ivClose.setOnClickListener {
-            
-
-        }
+//        binding.ivClose.setOnClickListener { mItemClickListener.onClick() }
 
     }
 
